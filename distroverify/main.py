@@ -9,9 +9,17 @@ from distroverify import __title__, __description__, __version__
 
 patterns = {
 	'ubuntu-mate': r'ubuntu-mate-(.*)-(.*)-(.*)\.iso',
+	'ubuntu-gnome': r'ubuntu-gnome-(.*)-(.*)-(.*)\.iso',
+	'xubuntu': r'xubuntu-(.*)-(.*)-(.*)\.iso',
+	'lubuntu': r'lubuntu-(.*)-(.*)-(.*)\.iso',
+	'ubuntu': r'ubuntu-(.*)-(.*)-(.*)\.iso',
 }
 urls = {
 	'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA1SUMS',
+	'ubuntu-gnome': 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/%s/release/SHA1SUMS',
+	'xubuntu': 'http://cdimage.ubuntu.com/xubuntu/releases/%s/release/SHA1SUMS',
+	'lubuntu': 'http://cdimage.ubuntu.com/lubuntu/releases/%s/release/SHA1SUMS',
+	'ubuntu': 'http://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA1SUMS',
 }
 
 def fileexists(filepath):
@@ -25,10 +33,13 @@ def fileexists(filepath):
 			print(ex)
 
 def verify(distro, release_version, file_name, full_file_name):
-	if distro == 'ubuntu-mate':
+	if distro in ['ubuntu', 'ubuntu-mate', 'xubuntu', 'kubuntu', 'lubuntu', 'ubuntu-budgie', 'ubuntu-gnome', 'ubuntu-core', 'ubuntu-server', 'ubuntu-touch', 'ubuntu-touch-custom', 'ubuntu-kylin', 'ubuntu-studio']:
 		url = urls[distro] % release_version
-	print('verifyication url:', url)
-	print('calculating file hash...')
+	else:
+		print("unknown distro")
+		return
+	print('verification url:', url)
+	print('calculating hash...')
 	hash = hashlib.sha1()
 	with open(full_file_name,'rb') as fp:
 		for chunk in iter(lambda: fp.read(4096), b""):
@@ -37,10 +48,17 @@ def verify(distro, release_version, file_name, full_file_name):
 	strhash = strhash.strip()
 	print('done')
 	resp = requests.get(url)
-	urlhash = resp.text.split(" ")[0]
-	print('response hash:',urlhash)
-	print('calculated hash:', strhash)
-	print('match: ', urlhash == strhash)
+	ss = resp.text
+	#print(ss.split("\n"))
+	for item in ss.split("\n"):
+		#print('comparing: ', item, file_name)
+		if item.endswith(file_name):
+			urlhash = item.split(" ")[0]
+			print('response hash:',urlhash)
+			print('calculated hash:', strhash)
+			print('match: ', urlhash == strhash)
+			return
+	print("hash not found in the response file")
 
 def main():
 	banner = """%s version %s
@@ -65,12 +83,12 @@ For a copy, see <https://opensource.org/licenses/MIT>.
 	for distro in patterns.keys():
 		pattern = patterns[distro]
 		match = re.match(pattern, args.distro_file)
-		#print(match)
 		if match != None:
+			#print('match: ', match, 'distro: ', distro)
 			break
 
 	if match == None:
-		print("Filename pattern doesn't match with any distros. Currently, we support only ubuntu.")
+		print("Filename pattern doesn't match with any distros. Currently, we support only ubuntu family (ubuntu/xubuntu/kubuntu/etc).")
 		sys.exit()
 	else:
 		print("match success: ", distro)
@@ -89,9 +107,6 @@ For a copy, see <https://opensource.org/licenses/MIT>.
 		for chunk in iter(lambda: fp.read(4096), b""):
 			hash.update(chunk)
 	strhash = hash.hexdigest()
-		
-		
-	#scan(strhash.strip(), args.log_output) #args.verbose
 
 if __name__ == "__main__":
 	main()
