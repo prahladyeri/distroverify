@@ -95,20 +95,19 @@ def verify(match, distro, file_name, full_file_name):
 		print('calculated hash:', strhash)
 		print('response hash:',urlhash)
 		print('match: ', is_correct)
+		return is_correct
 	else:
 		print("hash not found in the response file")
+		return
 
-def main():
-	if '-v' in sys.argv or '--version' in sys.argv:
+def main(args):
+	if '-v' in args or '--version' in args:
 		print("%s version %s" % (__title__, __version__))
 		return
 	parser = argparse.ArgumentParser()
 	parser.add_argument('distro_file', type=fileexists, help='Distro File Location EX: /Desktop/Somewhere/ubuntu-mate-19.04-desktop-amd64.iso')
 	parser.add_argument('-v', '--version', help='Version', action='store_true')
-	args = parser.parse_args()
-	
-	if args.version:
-		sys.exit()
+	args = parser.parse_args(args)
 	
 	full_file_name = args.distro_file
 	args.distro_file = os.path.basename(args.distro_file)
@@ -120,19 +119,11 @@ def main():
 			break
 
 	if match == None:
-		print("Filename pattern doesn't match with any distros. Currently, we support only ubuntu family (ubuntu/xubuntu/kubuntu/etc).")
-		sys.exit()
+		print("Filename pattern doesn't match with any distros.")
+		return None
 	else:
 		print("match success: ", distro)
-		verify(match, distro, args.distro_file, full_file_name)
-		sys.exit()
-
-	#calculate hash of file
-	hash = hashlib.sha1()
-	with open(args.distro_file,'rb') as fp:
-		for chunk in iter(lambda: fp.read(4096), b""):
-			hash.update(chunk)
-	strhash = hash.hexdigest()
+		return verify(match, distro, args.distro_file, full_file_name)
 
 if __name__ == "__main__":
-	main()
+	main(sys.argv[1:])
