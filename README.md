@@ -8,7 +8,11 @@
 <!--![commit-activity](https://img.shields.io/github/commit-activity/w/prahladyeri/distroverify.svg)-->
 [![donate](https://img.shields.io/badge/-Donate-blue.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JM8FUXNFUK6EU)
 [![follow](https://img.shields.io/twitter/follow/prahladyeri.svg?style=social)](https://twitter.com/prahladyeri)
+
 # distroverify
+
+![project logo](https://raw.githubusercontent.com/prahladyeri/distroverify/master/logo.png)
+
 Utility to verify any linux distro file (*.iso) for its integrity.
 
 # Installation
