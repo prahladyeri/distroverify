@@ -20,7 +20,7 @@ s = setup(
 	include_package_data=True,
 	entry_points={
 		"console_scripts": [
-			"distroverify = distroverify.main:main",
+			"distroverify = distroverify.distroverify:main",
 		],
 	},
 	install_requires=['requests'],
