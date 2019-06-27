@@ -100,7 +100,7 @@ def verify(match, distro, file_name, full_file_name):
 		print("hash not found in the response file")
 		return
 
-def main(args):
+def process(args):
 	if '-v' in args or '--version' in args:
 		print("%s version %s" % (__title__, __version__))
 		return
@@ -125,5 +125,8 @@ def main(args):
 		print("match success: ", distro)
 		return verify(match, distro, args.distro_file, full_file_name)
 
+def main():
+	process(sys.argv[1:])
+
 if __name__ == "__main__":
-	main(sys.argv[1:])
+	main()
