@@ -21,7 +21,7 @@ project = 'Distroverify'
 copyright = '2019, Prahlad Yeri'
 author = 'Prahlad Yeri'
 
-master_doc = 'index.rst'
+master_doc = 'index'
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
