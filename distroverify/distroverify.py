@@ -24,6 +24,7 @@ patterns = {
 	'lubuntu': r'lubuntu-(.*)-(.*)-(.*)\.iso',
 	'ubuntu': r'ubuntu-(.*)-(.*)-(.*)\.iso',
 	'opensuse-leap': r'openSUSE-Leap-(.*)-(.*)-(.*)-(.*)-Current\.iso',
+	'linuxmint': 'linuxmint-(.*)-(.*)-(.*).iso',
 }
 urls = {
 	'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA256SUMS',
@@ -31,7 +32,8 @@ urls = {
 	'xubuntu': 'http://cdimage.ubuntu.com/xubuntu/releases/%s/release/SHA256SUMS',
 	'lubuntu': 'http://cdimage.ubuntu.com/lubuntu/releases/%s/release/SHA256SUMS',
 	'ubuntu': 'http://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA256SUMS',
-	'opensuse-leap': 'https://download.opensuse.org/distribution/leap/%s/%s/'
+	'opensuse-leap': 'https://download.opensuse.org/distribution/leap/%s/%s/%s.sha256',
+	'linuxmint': 'https://ftp.heanet.ie/mirrors/linuxmint.com/stable/%s/sha256sum.txt',
 }
 
 def fileexists(filepath):
@@ -55,12 +57,19 @@ def verify(match, distro, file_name, full_file_name):
 		arch = match.groups()[2]
 		url = urls[distro] % ver
 		print("version: %s, type: %s, arch: %s" % (ver, typ, arch))
+	elif distro == 'linuxmint':
+		ver = match.groups()[0]
+		typ = match.groups()[1]
+		arch = match.groups()[2]
+		#url = (urls[distro] % (ver, typ, arch))
+		url = urls[distro] % ver
+		print("version: %s, type: %s, arch: %s" % (ver, typ, arch))
 	elif distro == 'opensuse-leap':
 		ver = match.groups()[0]
 		typ = match.groups()[1]
 		dist = match.groups()[2]
 		arch = match.groups()[3]
-		url = (urls[distro] % (ver, dist.lower())) + file_name + ".sha256"
+		url = (urls[distro] % (ver, dist.lower(), file_name))
 		print("version: %s, type: %s, dist: %s, arch: %s" % (ver, typ, dist, arch))
 	else:
 		print("unknown distro")
@@ -79,15 +88,15 @@ def verify(match, distro, file_name, full_file_name):
 	#print(ss.split("\n"))
 	is_found = False
 	if distro in ['opensuse-leap']:
-		urlhash = ss.split(" ")[0]
+		urlhash = ss.splitlines()[3].strip()
 		is_found = True
-		# print('ss.split():', ss.split())
+		#print('ss.split():', ss.split())
 		# for line in ss.split():
 			# if file_name in line:
 				# is_found = True
 				# urlhash = line.split()[0]
 				# break
-	else: # ubuntu family of distros
+	else: # ubuntu family, linuxmint
 		for item in ss.split("\n"):
 			if item.endswith(file_name):
 				urlhash = item.split(" ")[0]
@@ -96,7 +105,7 @@ def verify(match, distro, file_name, full_file_name):
 	if is_found:
 		is_correct = (urlhash == strhash)
 		print('calculated hash:', strhash)
-		print('response hash:',urlhash)
+		print('official hash:',urlhash)
 		print('match: ', is_correct)
 		return is_correct
 	else:
@@ -122,10 +131,10 @@ def process(args):
 			break
 
 	if match == None:
-		print("Filename pattern doesn't match with any distros.")
+		print("pattern doesn't match with any distros known to me")
 		return None
 	else:
-		print("distro parsed: ", distro)
+		print("distro detected: ", distro)
 		return verify(match, distro, args.distro_file, full_file_name)
 
 def main():
