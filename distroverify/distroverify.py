@@ -13,6 +13,9 @@ from distroverify import __title__, __description__, __version__
 # debian-live-9.9.0-amd64-gnome.iso
 # ubuntu-16.04.6-desktop-i386.iso
 # ubuntu-16.04.6-server-i386.iso
+# linuxmint-19.1-mate-64bit
+
+# https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
 
 patterns = {
 	'ubuntu-mate': r'ubuntu-mate-(.*)-(.*)-(.*)\.iso',
@@ -23,11 +26,11 @@ patterns = {
 	'opensuse-leap': r'openSUSE-Leap-(.*)-(.*)-(.*)-(.*)-Current\.iso',
 }
 urls = {
-	'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA1SUMS',
-	'ubuntu-gnome': 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/%s/release/SHA1SUMS',
-	'xubuntu': 'http://cdimage.ubuntu.com/xubuntu/releases/%s/release/SHA1SUMS',
-	'lubuntu': 'http://cdimage.ubuntu.com/lubuntu/releases/%s/release/SHA1SUMS',
-	'ubuntu': 'http://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA1SUMS',
+	'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA256SUMS',
+	'ubuntu-gnome': 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/%s/release/SHA256SUMS',
+	'xubuntu': 'http://cdimage.ubuntu.com/xubuntu/releases/%s/release/SHA256SUMS',
+	'lubuntu': 'http://cdimage.ubuntu.com/lubuntu/releases/%s/release/SHA256SUMS',
+	'ubuntu': 'http://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA256SUMS',
 	'opensuse-leap': 'https://download.opensuse.org/distribution/leap/%s/%s/'
 }
 
@@ -57,14 +60,14 @@ def verify(match, distro, file_name, full_file_name):
 		typ = match.groups()[1]
 		dist = match.groups()[2]
 		arch = match.groups()[3]
-		url = (urls[distro] % (ver, dist.lower())) + file_name + ".sha1"
+		url = (urls[distro] % (ver, dist.lower())) + file_name + ".sha256"
 		print("version: %s, type: %s, dist: %s, arch: %s" % (ver, typ, dist, arch))
 	else:
 		print("unknown distro")
 		return
 	print('verification url:', url)
 	print('calculating hash...')
-	hash = hashlib.sha1()
+	hash = hashlib.sha256()
 	with open(full_file_name,'rb') as fp:
 		for chunk in iter(lambda: fp.read(4096), b""):
 			hash.update(chunk)
@@ -122,7 +125,7 @@ def process(args):
 		print("Filename pattern doesn't match with any distros.")
 		return None
 	else:
-		print("match success: ", distro)
+		print("distro parsed: ", distro)
 		return verify(match, distro, args.distro_file, full_file_name)
 
 def main():
