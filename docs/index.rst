@@ -1,14 +1,9 @@
-.. distroverify
-
-Distroverify Documentation
-===========================
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
+   
 Introduction
-===========================
+============================
 
 ``distroverify`` is a utility to verify any linux distro file (\*.iso) for its integrity and primarily intended towards distro hoppers and linux newbies. When you download a distro iso file from the internet (such as 	``ubuntu-mate-19.04-desktop-amd64.iso``), you may never know if it may have been tampered with en-route or even on the server itself.
 
@@ -21,6 +16,7 @@ The following distros are supported so far and the list keeps increasing in the 
 
 	* Supported distros:
 		* Ubuntu - All family (except ``ubuntu-server`` because they no longer provide checksums for older versions)
+		* Debian - Live and DVD versions
 		* Linux Mint
 		* OpenSUSE LEAP
 
