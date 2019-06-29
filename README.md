@@ -32,7 +32,8 @@ Utility to verify any linux distro file (*.iso) for its integrity.
 # Note
 
 - Supported distros:
-	- Ubuntu - all family (except ubuntu-server because they no longer provide checksums for older versions)
+	- Ubuntu - All family (except ubuntu-server because they no longer provide checksums for older versions)
+	- Linux Mint
 	- OpenSUSE LEAP
 
 - You shouldn't change the name of the iso file (for example, `ubuntu-mate-19.04-desktop-amd64.iso`) because this tool uses regular expressions to match them and then look up its hash on the corresponding distro's URL.
