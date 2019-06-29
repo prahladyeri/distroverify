@@ -10,10 +10,11 @@ from distroverify import __title__, __description__, __version__
 # examples:
 # openSUSE-Leap-15.1-KDE-Live-x86_64-Current.iso
 # openSUSE-Leap-15.1-GNOME-Live-x86_64-Current.iso
-# debian-live-9.9.0-amd64-gnome.iso
 # ubuntu-16.04.6-desktop-i386.iso
 # ubuntu-16.04.6-server-i386.iso
 # linuxmint-19.1-mate-64bit
+# debian-live-9.9.0-amd64-gnome.iso
+# debian-9.3.0-amd64-DVD-1.iso
 
 # https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
 
@@ -25,7 +26,10 @@ patterns = {
 	'ubuntu': r'ubuntu-(.*)-(.*)-(.*)\.iso',
 	'opensuse-leap': r'openSUSE-Leap-(.*)-(.*)-(.*)-(.*)-Current\.iso',
 	'linuxmint': 'linuxmint-(.*)-(.*)-(.*).iso',
+	'debian-live': 'debian-live-(.*)-(.*)-(.*).iso',
+	'debian-dvd': 'debian-(.*)-(.*)-DVD-(.*).iso',
 }
+
 urls = {
 	'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA256SUMS',
 	'ubuntu-gnome': 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/%s/release/SHA256SUMS',
@@ -34,6 +38,14 @@ urls = {
 	'ubuntu': 'http://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA256SUMS',
 	'opensuse-leap': 'https://download.opensuse.org/distribution/leap/%s/%s/%s.sha256',
 	'linuxmint': 'https://ftp.heanet.ie/mirrors/linuxmint.com/stable/%s/sha256sum.txt',
+	'debian-live': {
+		'archive': 'https://cdimage.debian.org/mirror/cdimage/archive/{ver}-live/{arch}/iso-hybrid/SHA256SUMS',
+		'release': 'https://cdimage.debian.org/mirror/cdimage/release/{ver}-live/{arch}/iso-hybrid/SHA256SUMS'
+	},
+	'debian-dvd': {
+		'archive': 'https://cdimage.debian.org/mirror/cdimage/archive/{ver}/{arch}/iso-dvd/SHA256SUMS',
+		'release': 'https://cdimage.debian.org/mirror/cdimage/release/{ver}/{arch}/iso-dvd/SHA256SUMS'
+	},
 }
 
 def fileexists(filepath):
@@ -71,10 +83,25 @@ def verify(match, distro, file_name, full_file_name):
 		arch = match.groups()[3]
 		url = (urls[distro] % (ver, dist.lower(), file_name))
 		print("version: %s, type: %s, dist: %s, arch: %s" % (ver, typ, dist, arch))
+	elif distro == 'debian-live':
+		ver = match.groups()[0]
+		arch = match.groups()[1]
+		typ = match.groups()[2]
+		#arch = match.groups()[3]
+		url = urls[distro] #(urls[distro] % (ver, dist.lower(), file_name))
+		print("version: %s, type: %s, arch: %s" % (ver, typ, arch))
+	elif distro == 'debian-dvd':
+		ver = match.groups()[0]
+		arch = match.groups()[1]
+		dvdnum = match.groups()[2]
+		#typ = match.groups()[3]
+		#arch = match.groups()[3]
+		url = urls[distro] #(urls[distro] % (ver, dist.lower(), file_name))
+		print("version: %s, arch: %s, dvdnum: %s" % (ver, arch, dvdnum))
 	else:
 		print("unknown distro")
 		return
-	print('verification url:', url)
+	print('verification url(s):', url)
 	print('calculating hash...')
 	hash = hashlib.sha256()
 	with open(full_file_name,'rb') as fp:
@@ -82,9 +109,29 @@ def verify(match, distro, file_name, full_file_name):
 			hash.update(chunk)
 	strhash = hash.hexdigest()
 	strhash = strhash.strip()
+
 	print('done. fetching official hash')
-	resp = requests.get(url)
+	
+	if distro in ['debian-live', 'debian-dvd']:
+		print("trying archive url...")
+		turl = url['archive'].format(ver=ver, arch=arch)
+		resp = requests.get(turl)
+		if resp.status_code == 404:
+			print("failed. now trying release url...")
+			turl = url['release'].format(ver=ver, arch=arch)
+			resp = requests.get(turl)
+			if resp.status_code == 404:
+				print("failed. looks like they don't have this anymore!")
+				return
+			else:
+				print("success")
+		else:
+			print("success")
+	else:
+		resp = requests.get(url)
+	
 	ss = resp.text
+	status_code = resp.status_code
 	#print(ss.split("\n"))
 	is_found = False
 	if distro in ['opensuse-leap']:
@@ -96,7 +143,13 @@ def verify(match, distro, file_name, full_file_name):
 				# is_found = True
 				# urlhash = line.split()[0]
 				# break
-	else: # ubuntu family, linuxmint
+	# elif distro in ['debian-live', 'debian-dvd']:
+		# for item in ss.split("\n"):
+			# if item.endswith(file_name):
+				# urlhash = item.split(" ")[0]
+				# is_found = True
+				# break
+	else: # ubuntu family, linuxmint, debian-live, debian-dvd
 		for item in ss.split("\n"):
 			if item.endswith(file_name):
 				urlhash = item.split(" ")[0]

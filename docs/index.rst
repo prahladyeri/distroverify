@@ -14,6 +14,17 @@ Introduction
 
 To be sure, you have to download a checksum file (usually ``sha1`` or ``sha256``) to ensure that the checksum matches with the distro file's checksum calculated at your end. This tool does exactly that, it takes care of the hassle for scavenging for the checksum file's download link and run a checksum utility like sha1sum or sha256sum. It automates this whole process for you in a single program!
 
+Supported Distros
+====================
+
+The following distros are supported so far and the list keeps increasing in the newer versions. It all depends on whether or not the distros maintain a standard convention in naming their urls for hashes.
+
+	* Supported distros:
+		* Ubuntu - All family (except ``ubuntu-server`` because they no longer provide checksums for older versions)
+		* Linux Mint
+		* OpenSUSE LEAP
+
+
 Installation
 ===========================
 
