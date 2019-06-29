@@ -48,6 +48,8 @@ urls = {
 	},
 }
 
+ubuntu_releases_url = "http://releases.ubuntu.com/{ver}/SHA256SUMS"
+
 def fileexists(filepath):
 	try:
 		if os.path.isfile(filepath):
@@ -110,7 +112,8 @@ def verify(match, distro, file_name, full_file_name):
 	strhash = hash.hexdigest()
 	strhash = strhash.strip()
 
-	print('done. fetching official hash')
+	print(strhash)
+	print('fetching official hash...')
 	
 	if distro in ['debian-live', 'debian-dvd']:
 		print("trying archive url...")
@@ -130,27 +133,23 @@ def verify(match, distro, file_name, full_file_name):
 	else:
 		resp = requests.get(url)
 	
-	ss = resp.text
+	#ss = resp.text
 	status_code = resp.status_code
-	#print(ss.split("\n"))
 	is_found = False
 	if distro in ['opensuse-leap']:
-		urlhash = ss.splitlines()[3].strip()
+		urlhash = resp.text.splitlines()[3].strip()
 		is_found = True
-		#print('ss.split():', ss.split())
-		# for line in ss.split():
-			# if file_name in line:
-				# is_found = True
-				# urlhash = line.split()[0]
-				# break
-	# elif distro in ['debian-live', 'debian-dvd']:
-		# for item in ss.split("\n"):
-			# if item.endswith(file_name):
-				# urlhash = item.split(" ")[0]
-				# is_found = True
-				# break
 	else: # ubuntu family, linuxmint, debian-live, debian-dvd
-		for item in ss.split("\n"):
+		for item in resp.text.splitlines():
+			if item.endswith(file_name):
+				urlhash = item.split(" ")[0]
+				is_found = True
+				break
+	if distro == 'ubuntu' and is_found == False:
+		url = ubuntu_releases_url.format(ver=ver)
+		print('trying releases url %s...' % url)
+		resp = requests.get(url)
+		for item in resp.text.splitlines():
 			if item.endswith(file_name):
 				urlhash = item.split(" ")[0]
 				is_found = True
@@ -163,7 +162,6 @@ def verify(match, distro, file_name, full_file_name):
 		return is_correct
 	else:
 		print("hash not found in the response file")
-		return
 
 def process(args):
 	if '-v' in args or '--version' in args:
