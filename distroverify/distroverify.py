@@ -8,6 +8,7 @@ import re
 from distroverify import __title__, __description__, __version__
 
 # examples:
+#
 # openSUSE-Leap-15.1-KDE-Live-x86_64-Current.iso
 # openSUSE-Leap-15.1-GNOME-Live-x86_64-Current.iso
 # ubuntu-16.04.6-desktop-i386.iso
@@ -15,8 +16,14 @@ from distroverify import __title__, __description__, __version__
 # linuxmint-19.1-mate-64bit
 # debian-live-9.9.0-amd64-gnome.iso
 # debian-9.3.0-amd64-DVD-1.iso
-
+# Fedora-Workstation-Live-x86_64-30-1.2.iso
+# Fedora-Workstation-netinst-x86_64-30-1.2.iso
+#
+# https://download.fedoraproject.org/pub/fedora/linux/releases/30/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-30-1.2.iso
+# https://download.fedoraproject.org/pub/fedora/linux/releases/30/Server/x86_64/iso/Fedora-Server-dvd-x86_64-30-1.2.iso
 # https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
+
+
 
 patterns = {
 	'ubuntu-mate': r'ubuntu-mate-(.*)-(.*)-(.*)\.iso',
@@ -28,6 +35,8 @@ patterns = {
 	'linuxmint': 'linuxmint-(.*)-(.*)-(.*).iso',
 	'debian-live': 'debian-live-(.*)-(.*)-(.*).iso',
 	'debian-dvd': 'debian-(.*)-(.*)-DVD-(.*).iso',
+	'fedora-live': 'Fedora-Workstation-Live-(.*)-(.*)-(.*).iso',
+	'fedora-netinst': 'Fedora-Workstation-netinst-(.*)-(.*)-(.*).iso',
 }
 
 urls = {
@@ -46,6 +55,8 @@ urls = {
 		'archive': 'https://cdimage.debian.org/mirror/cdimage/archive/{ver}/{arch}/iso-dvd/SHA256SUMS',
 		'release': 'https://cdimage.debian.org/mirror/cdimage/release/{ver}/{arch}/iso-dvd/SHA256SUMS'
 	},
+	'fedora-live': 'https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Workstation/{arch}/iso/Fedora-Workstation-{ver}-{sver}-{arch}-CHECKSUM',
+	'fedora-netinst': 'https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Workstation/{arch}/iso/Fedora-Workstation-{ver}-{sver}-{arch}-CHECKSUM',
 }
 
 ubuntu_releases_url = "http://releases.ubuntu.com/{ver}/SHA256SUMS"
@@ -100,6 +111,12 @@ def verify(match, distro, file_name, full_file_name):
 		#arch = match.groups()[3]
 		url = urls[distro] #(urls[distro] % (ver, dist.lower(), file_name))
 		print("version: %s, arch: %s, dvdnum: %s" % (ver, arch, dvdnum))
+	elif distro in ['fedora-live', 'fedora-netinst']:
+		arch = match.groups()[0]
+		ver = match.groups()[1]
+		sver = match.groups()[2]
+		url = urls[distro].format(ver=ver, sver=sver, arch=arch)
+		print("version: %s, subversion: %s, arch: %s" % (ver, sver, arch))
 	else:
 		print("unknown distro")
 		return
@@ -136,7 +153,14 @@ def verify(match, distro, file_name, full_file_name):
 	#ss = resp.text
 	status_code = resp.status_code
 	is_found = False
-	if distro in ['opensuse-leap']:
+	if distro in ['fedora-live', 'fedora-netinst']:
+		for line in resp.text.splitlines():
+			if file_name in line and line.startswith("SHA256 ("):
+				#line.split("SHA256 (")[1].split(")")[0]
+				urlhash = line.split("=")[1].strip()
+				is_found = True
+				break
+	elif distro in ['opensuse-leap']:
 		urlhash = resp.text.splitlines()[3].strip()
 		is_found = True
 	else: # ubuntu family, linuxmint, debian-live, debian-dvd
