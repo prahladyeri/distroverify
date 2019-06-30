@@ -28,12 +28,17 @@ Utility to verify any linux distro file (*.iso) for its integrity.
 	response hash: 2ace65436195d122b8ce0cfc106728c2922dd350
 	calculated hash: 2ace65436195d122b8ce0cfc106728c2922dd350
 	match:  True
+	
+# Documentation
 
-# Note
+	Detailed documentation is available at <https://distroverify.readthedocs.io/en/latest/>.
+
+# Notes
 
 - Supported distros:
-	- Ubuntu - All family (except ubuntu-server because they no longer provide checksums for older versions)
-	- Linux Mint
-	- OpenSUSE LEAP
+	* Ubuntu - All family (except `ubuntu-server` because they no longer provide checksums for older versions)
+	* Debian - Live and DVD versions
+	* Linux Mint
+	* OpenSUSE LEAP
 
 - You shouldn't change the name of the iso file (for example, `ubuntu-mate-19.04-desktop-amd64.iso`) because this tool uses regular expressions to match them and then look up its hash on the corresponding distro's URL.

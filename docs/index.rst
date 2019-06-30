@@ -12,7 +12,7 @@ To be sure, you have to download a checksum file (usually ``sha1`` or ``sha256``
 Supported Distros
 ====================
 
-The following distros are supported so far and the list keeps increasing in the newer versions. It all depends on whether or not the distros maintain a standard convention in naming their urls for hashes.
+The following distros are supported so far and the list keeps growing in the newer versions. It all depends on whether or not the distros maintain a standard convention in naming their urls for hashes.
 
 	* Supported distros:
 		* Ubuntu - All family (except ``ubuntu-server`` because they no longer provide checksums for older versions)
