@@ -1,0 +1,12 @@
+65636d9 build: released 1.0.7
+26ad478 feat: added colors to indicate a genuine or bogus iso
+a1a06b2 feat: added support for fedora-live and fedora-netinst
+92c03cb feat: added alternate releases url to ubuntu
+68305e1 feat: added support for debian-live and debian-dvd
+510950f chore: released 1.0.6
+435bebc feat: added support for linux mint
+f2d1b66 fix: better hash calculation
+579425e chore: released 1.0.5
+eeedbe9 chore: released 1.0.4
+9fb91b8 chore: released 1.0.3
+ff04e96 feat: added support for opensuse-leap
