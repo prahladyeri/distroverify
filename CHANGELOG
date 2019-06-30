@@ -1,4 +1,7 @@
 
+7fe7f9c build: released 1.0.8
+2c4eb96 fix: reset color on exit
+
 65636d9 build: released 1.0.7
 26ad478 feat: added colors to indicate a genuine or bogus iso
 a1a06b2 feat: added support for fedora-live and fedora-netinst
