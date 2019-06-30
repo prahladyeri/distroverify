@@ -38,8 +38,9 @@ Detailed docs are available at <https://distroverify.readthedocs.io/en/latest/>.
 
 - Supported distros:
 	* Ubuntu - All family (except `ubuntu-server` because they no longer provide checksums for older versions)
-	* Debian - Live and DVD versions
+	* Debian (Live & DVD)
 	* Linux Mint
 	* OpenSUSE LEAP
+	* Fedora (Live & netinst)
 
 - You shouldn't change the name of the iso file (for example, `ubuntu-mate-19.04-desktop-amd64.iso`) because this tool uses regular expressions to match them and then look up its hash on the corresponding distro's URL.
