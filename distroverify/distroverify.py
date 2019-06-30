@@ -232,6 +232,7 @@ def process(args):
 
 def main():
 	process(sys.argv[1:])
+	print(colors['reset'])
 
 if __name__ == "__main__":
 	main()
