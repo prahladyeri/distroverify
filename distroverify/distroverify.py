@@ -23,7 +23,19 @@ from distroverify import __title__, __description__, __version__
 # https://download.fedoraproject.org/pub/fedora/linux/releases/30/Server/x86_64/iso/Fedora-Server-dvd-x86_64-30-1.2.iso
 # https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
 
-
+colors = { 
+	"red": "\033[1;31m",
+	"blue": "\033[1;34m",
+	"cyan": "\033[1;36m",
+	"green": "\033[0;32m",
+	"reset": "\033[0;0m",
+	"bold": "\033[;1m",
+	"reverse": "\033[;7m",
+	'black': '\x1b[30m',
+	'magenta': '\x1b[35m',
+	'white': '\x1b[37m',
+	'yellow': '\x1b[33m',	
+}
 
 patterns = {
 	'ubuntu-mate': r'ubuntu-mate-(.*)-(.*)-(.*)\.iso',
@@ -75,7 +87,7 @@ def verify(match, distro, file_name, full_file_name):
 	# print("release_version: %s" % release_version)
 	# print("ds: %s" % ds)
 	# print("arch: %s" % arch)
-
+	
 	if distro in ['ubuntu', 'ubuntu-mate', 'xubuntu', 'kubuntu', 'lubuntu', 'ubuntu-budgie', 'ubuntu-gnome', 'ubuntu-core', 'ubuntu-server', 'ubuntu-touch', 'ubuntu-touch-custom', 'ubuntu-kylin', 'ubuntu-studio']:
 		ver = match.groups()[0]
 		typ = match.groups()[1]
@@ -129,6 +141,7 @@ def verify(match, distro, file_name, full_file_name):
 	strhash = hash.hexdigest()
 	strhash = strhash.strip()
 
+	print(colors['blue'])
 	print(strhash)
 	print('fetching official hash...')
 	
@@ -180,9 +193,14 @@ def verify(match, distro, file_name, full_file_name):
 				break
 	if is_found:
 		is_correct = (urlhash == strhash)
+		print(colors['green'] if is_correct else colors['red'])
 		print('calculated hash:', strhash)
 		print('official hash:',urlhash)
 		print('match: ', is_correct)
+		if is_correct:
+			print("looks like {fname} is genuine".format(fname=file_name))
+		else:
+			print("looks like {fname} is not genuine".format(fname=file_name))
 		return is_correct
 	else:
 		print("hash not found in the response file")
