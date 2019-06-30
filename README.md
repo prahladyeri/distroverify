@@ -32,7 +32,7 @@ Utility to verify any linux distro file (*.iso) for its integrity.
 	
 # Documentation
 
-	Detailed documentation is available at <https://distroverify.readthedocs.io/en/latest/>.
+Detailed docs are available at <https://distroverify.readthedocs.io/en/latest/>.
 
 # Notes
 
