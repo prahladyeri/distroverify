@@ -30,7 +30,7 @@ Detailed docs are available at <https://distroverify.readthedocs.io/en/latest/>.
 # Notes
 
 - Supported distros:
-	* Ubuntu - All family (except `ubuntu-server` because they no longer provide checksums for older versions)
+	* Ubuntu - All family
 	* Debian (Live & DVD)
 	* Linux Mint
 	* OpenSUSE LEAP
