@@ -18,17 +18,8 @@ Utility to verify any linux distro file (*.iso) for its integrity.
 
 # Usage
 
-	> distroverify ubuntu-mate-16.04.5-desktop-amd64.iso
-	Distro Verify version 1.0.1
-	Utility to verify any linux distro file (*.iso) for its integrity
+![distroverify usage](https://raw.githubusercontent.com/prahladyeri/distroverify/master/distroverify_usage.png)
 
-	match success:  ubuntu-mate
-	verification url: http://cdimage.ubuntu.com/ubuntu-mate/releases/16.04.5/release/SHA1SUMS
-	calculating hash...
-	done
-	response hash: 2ace65436195d122b8ce0cfc106728c2922dd350
-	calculated hash: 2ace65436195d122b8ce0cfc106728c2922dd350
-	match:  True
 	
 # Documentation
 
