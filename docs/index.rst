@@ -31,21 +31,24 @@ Installation
 Usage
 ===========================
 
-To use ``distroverify``, simply run the command with the iso filename as argument:
+Simply run ``distroverify`` with path to iso file as argument:
 
 .. code-block:: bash
 
-	> distroverify ubuntu-mate-16.04.5-desktop-amd64.iso
-	Distro Verify version 1.0.1
-	Utility to verify any linux distro file (*.iso) for its integrity
-
-	match success:  ubuntu-mate
-	verification url: http://cdimage.ubuntu.com/ubuntu-mate/releases/16.04.5/release/SHA1SUMS
+	prahlad@ubuntu:~$ distroverify ubuntu-14.04.6-server-i386.iso 
+	distro detected:  ubuntu
+	version: 14.04.6, type: server, arch: i386
+	verification url(s): http://cdimage.ubuntu.com/ubuntu/releases/14.04.6/release/SHA256SUMS
 	calculating hash...
-	done
-	response hash: 2ace65436195d122b8ce0cfc106728c2922dd350
-	calculated hash: 2ace65436195d122b8ce0cfc106728c2922dd350
+
+	c3b0e016e77e6bcfc608ab3e3d2aa33367fc83e3bf645014ecf36689fe330b80
+	fetching official hash...
+	trying releases url http://releases.ubuntu.com/14.04.6/SHA256SUMS...
+
+	calculated hash: c3b0e016e77e6bcfc608ab3e3d2aa33367fc83e3bf645014ecf36689fe330b80
+	official hash: c3b0e016e77e6bcfc608ab3e3d2aa33367fc83e3bf645014ecf36689fe330b80
 	match:  True
+	looks like ubuntu-14.04.6-server-i386.iso is genuine
 
 Notes
 ===========================

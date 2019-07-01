@@ -18,6 +18,8 @@ Utility to verify any linux distro file (*.iso) for its integrity.
 
 # Usage
 
+Simply run `distroverify` with path to iso file as argument:
+
 ![distroverify usage](https://raw.githubusercontent.com/prahladyeri/distroverify/master/distroverify_usage.png)
 
 	
