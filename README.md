@@ -1,5 +1,5 @@
 ![pypi](https://img.shields.io/pypi/v/distroverify.svg)
-![python](https://img.shields.io/pypi/pyversions/cfgsaver.svg)
+![python](https://img.shields.io/pypi/pyversions/distroverify.svg)
 ![license](https://img.shields.io/github/license/prahladyeri/distroverify.svg)
 ![last-commit](https://img.shields.io/github/last-commit/prahladyeri/distroverify.svg)
 ![docs](https://readthedocs.org/projects/distroverify/badge/?version=latest)
