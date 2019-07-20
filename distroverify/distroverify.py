@@ -1,3 +1,6 @@
+""" Script to verify integrity of a given .iso file
+
+"""
 import requests
 import argparse
 import os, sys
@@ -7,21 +10,23 @@ import json
 import re
 from distroverify import __title__, __description__, __version__
 
-# examples:
-#
-# openSUSE-Leap-15.1-KDE-Live-x86_64-Current.iso
-# openSUSE-Leap-15.1-GNOME-Live-x86_64-Current.iso
-# ubuntu-16.04.6-desktop-i386.iso
-# ubuntu-16.04.6-server-i386.iso
-# linuxmint-19.1-mate-64bit
-# debian-live-9.9.0-amd64-gnome.iso
-# debian-9.3.0-amd64-DVD-1.iso
-# Fedora-Workstation-Live-x86_64-30-1.2.iso
-# Fedora-Workstation-netinst-x86_64-30-1.2.iso
-#
-# https://download.fedoraproject.org/pub/fedora/linux/releases/30/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-30-1.2.iso
-# https://download.fedoraproject.org/pub/fedora/linux/releases/30/Server/x86_64/iso/Fedora-Server-dvd-x86_64-30-1.2.iso
-# https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
+""" 
+Examples:
+
+ openSUSE-Leap-15.1-KDE-Live-x86_64-Current.iso
+ openSUSE-Leap-15.1-GNOME-Live-x86_64-Current.iso
+ ubuntu-16.04.6-desktop-i386.iso
+ ubuntu-16.04.6-server-i386.iso
+ linuxmint-19.1-mate-64bit
+ debian-live-9.9.0-amd64-gnome.iso
+ debian-9.3.0-amd64-DVD-1.iso
+ Fedora-Workstation-Live-x86_64-30-1.2.iso
+ Fedora-Workstation-netinst-x86_64-30-1.2.iso
+
+https://download.fedoraproject.org/pub/fedora/linux/releases/30/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-30-1.2.iso
+https://download.fedoraproject.org/pub/fedora/linux/releases/30/Server/x86_64/iso/Fedora-Server-dvd-x86_64-30-1.2.iso
+https://ftp.heanet.ie/mirrors/linuxmint.com/stable/19.1/sha256sum.txt
+"""
 
 colors = { 
 	"red": "\033[1;31m",
@@ -74,6 +79,11 @@ urls = {
 ubuntu_releases_url = "http://releases.ubuntu.com/{ver}/SHA256SUMS"
 
 def fileexists(filepath):
+	"""Check for existence of a file
+	
+	:param filepath: Full path to a file
+	:return: Full path to the file if it exists, None otherwise
+	"""
 	try:
 		if os.path.isfile(filepath):
 			return filepath
@@ -84,10 +94,14 @@ def fileexists(filepath):
 			print(ex)
 
 def verify(match, distro, file_name, full_file_name):
-	# print("release_version: %s" % release_version)
-	# print("ds: %s" % ds)
-	# print("arch: %s" % arch)
+	"""Verify the matched distro file for its integrity.
 	
+	:param match: Matched regex value
+	:param distro: Matched distro
+	:param file_name: Distro file basename
+	:param full_file_name: Full Path to distro file
+	:return True if verification succeeds, False if it fails, None if distro couldn't be verified
+	"""
 	if distro in ['ubuntu', 'ubuntu-mate', 'xubuntu', 'kubuntu', 'lubuntu', 'ubuntu-budgie', 'ubuntu-gnome', 'ubuntu-core', 'ubuntu-server', 'ubuntu-touch', 'ubuntu-touch-custom', 'ubuntu-kylin', 'ubuntu-studio']:
 		ver = match.groups()[0]
 		typ = match.groups()[1]
@@ -205,7 +219,11 @@ def verify(match, distro, file_name, full_file_name):
 	else:
 		print("hash not found in the response file")
 
-def process(args):
+def main(args):
+	"""Main entry point of script, process given args using argparse module
+	
+	:param args: List of arguments to be processed
+	"""
 	if '-v' in args or '--version' in args:
 		print("%s version %s" % (__title__, __version__))
 		return
@@ -220,7 +238,6 @@ def process(args):
 		pattern = patterns[distro]
 		match = re.match(pattern, args.distro_file)
 		if match != None:
-			#print('match: ', match, 'distro: ', distro)
 			break
 
 	if match == None:
@@ -230,9 +247,6 @@ def process(args):
 		print("distro detected: ", distro)
 		return verify(match, distro, args.distro_file, full_file_name)
 
-def main():
-	process(sys.argv[1:])
-	print(colors['reset'])
-
 if __name__ == "__main__":
-	main()
+	main(sys.argv[1:])
+	print(colors['reset'])

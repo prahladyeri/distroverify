@@ -1,3 +1,7 @@
+"""
+Utility to verify any linux distro file for its integrity
+"""
+
 __author__ = "Prahlad Yeri"
 __email__ = "prahladyeri@yahoo.com"
 __copyright__ = "(c) 2019 Prahlad Yeri"
