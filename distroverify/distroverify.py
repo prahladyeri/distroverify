@@ -100,7 +100,7 @@ def verify(match, distro, file_name, full_file_name):
 	:param distro: Matched distro
 	:param file_name: Distro file basename
 	:param full_file_name: Full Path to distro file
-	:return True if verification succeeds, False if it fails, None if distro couldn't be verified
+	:return: True if verification succeeds, False if it fails, None if distro couldn't be verified
 	"""
 	if distro in ['ubuntu', 'ubuntu-mate', 'xubuntu', 'kubuntu', 'lubuntu', 'ubuntu-budgie', 'ubuntu-gnome', 'ubuntu-core', 'ubuntu-server', 'ubuntu-touch', 'ubuntu-touch-custom', 'ubuntu-kylin', 'ubuntu-studio']:
 		ver = match.groups()[0]

@@ -2,6 +2,7 @@
    :maxdepth: 2
    :caption: Contents:
    
+
 Introduction
 ============================
 
@@ -54,6 +55,14 @@ Notes
 ===========================
 
 You shouldn't change the name of the iso file because this tool uses regular expressions to match them and then look up its hash on the corresponding distro's URL.
+
+API Documentation
+==================
+
+.. automodule:: distroverify
+.. automodule:: distroverify.distroverify
+	:members:
+
 
 Indices and tables
 ===========================

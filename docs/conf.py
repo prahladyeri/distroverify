@@ -12,8 +12,10 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../distroverify'))
-#sys.path.insert(0, os.path.abspath('../distroverify'))
+#from .. import distroverify
+sys.path.insert(0, os.path.abspath('../'))
+#sys.path.insert(0, os.path.abspath('../distroverify/'))
+#import distroverify.distroverify
 
 # -- Project information -----------------------------------------------------
 
@@ -32,10 +34,9 @@ master_doc = 'index'
 
 extensions = [
 'sphinx.ext.autodoc',
-'sphinx.ext.autosummary',
 ]
-autodoc_default_flags = ['members']
-autosummary_generate = True
+# autodoc_default_flags = ['members']
+# autosummary_generate = True
 
 
 # Add any paths that contain templates here, relative to this directory.
