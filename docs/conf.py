@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'Distroverify'
-copyright = '2019, Prahlad Yeri'
+copyright = '2023, Prahlad Yeri'
 author = 'Prahlad Yeri'
 
 master_doc = 'index'
@@ -55,7 +55,7 @@ extensions = [
 #
 #html_theme = 'alabaster'
 #html_theme = 'sphinxdoc'
-#html_theme = 'classic'
+html_theme = 'classic'
 #html_theme = 'nature'
 #html_theme = 'pyramid'
 
