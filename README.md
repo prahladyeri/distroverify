@@ -4,7 +4,7 @@
 ![docs](https://readthedocs.org/projects/distroverify/badge/?version=latest)
 [![patreon](https://img.shields.io/badge/Patreon-brown.svg?logo=patreon)](https://www.patreon.com/prahladyeri)
 [![paypal](https://img.shields.io/badge/PayPal-blue.svg?logo=paypal)](https://paypal.me/prahladyeri)
-[![follow](https://img.shields.io/twitter/follow/prahladyeri.svg?style=social)](https://twitter.com/prahladyeri)
+[![follow](https://img.shields.io/twitter/follow/prahladyeri.svg?style=social)](https://x.com/prahladyeri)
 
 # distroverify
 
@@ -23,10 +23,6 @@ Simply run `distroverify` with path to iso file as argument:
 ![distroverify usage](https://raw.githubusercontent.com/prahladyeri/distroverify/master/distroverify_usage.png)
 
 	
-# Documentation
-
-Detailed docs are available at <https://distroverify.readthedocs.io/en/latest/>.
-
 # Notes
 
 - Supported distros:
