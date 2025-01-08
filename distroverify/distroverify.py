@@ -57,14 +57,14 @@ patterns = {
     'fedora-netinst': 'Fedora-Workstation-netinst-(.*)-(.*)-(.*).iso',
 }
 
-urls = {
+urls =  {
     'ubuntu-mate': 'http://cdimage.ubuntu.com/ubuntu-mate/releases/%s/release/SHA256SUMS',
     'ubuntu-gnome': 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/%s/release/SHA256SUMS',
     'xubuntu': 'http://cdimage.ubuntu.com/xubuntu/releases/%s/release/SHA256SUMS',
     'lubuntu': 'http://cdimage.ubuntu.com/lubuntu/releases/%s/release/SHA256SUMS',
     'ubuntu': 'https://cdimage.ubuntu.com/ubuntu/releases/%s/release/SHA256SUMS',
     'opensuse-leap': 'https://download.opensuse.org/distribution/leap/%s/%s/%s.sha256',
-    'linuxmint': 'https://ftp.heanet.ie/mirrors/linuxmint.com/stable/%s/sha256sum.txt',
+    'linuxmint': 'https://mirror.dogado.de/linuxmint-cd/stable/%s/sha256sum.txt',
     'debian-live': {
         'archive': 'https://cdimage.debian.org/mirror/cdimage/archive/{ver}-live/{arch}/iso-hybrid/SHA256SUMS',
         'release': 'https://cdimage.debian.org/mirror/cdimage/release/{ver}-live/{arch}/iso-hybrid/SHA256SUMS'
