@@ -278,7 +278,7 @@ def main(args=[]):
             match = re.match(pattern, args.distro_file + ".iso")
             if match != None:
                 verify(match, distro, args.distro_file + ".iso", args.distro_file + ".iso", True)
-                return
+                print(colors['reset'])
         print("pattern doesn't match with any distros known to me")
         return
     
@@ -302,8 +302,8 @@ def main(args=[]):
         return None
     else:
         print("distro detected: ", distro)
-        return verify(match, distro, args.distro_file, full_file_name)
+        verify(match, distro, args.distro_file, full_file_name)
+        print(colors['reset'])
 
 if __name__ == "__main__":
     main()
-    print(colors['reset'])
