@@ -257,17 +257,17 @@ def main(args=[]):
     
     :param args: List of arguments to be processed
     """
-    if len(args) == 0:
-        args = sys.argv[1:]        
+    # if len(args) == 0:
+        # args = sys.argv[1:]        
     # if '-v' in args or '--version' in args:
         # print("%s version %s" % (__title__, __version__))
         # return
     parser = argparse.ArgumentParser(epilog="examples:\n distroverify /Desktop/Somewhere/ubuntu-mate-19.04-desktop-amd64.iso\n distroverify ubuntu-mate-19.04-desktop-amd64", formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('distro_file', help='Distro name or filename')
+    parser.add_argument('distro_file', nargs='?', default="", help='Distro name or filename')
     parser.add_argument('-dl', '--download-link', help='Show download links for named distro instead', action='store_true')
     # parser.add_argument('-n', '--name-of-distro',help='Name of distro to download (EX: ubuntu-mate-19.04-desktop-amd64)', default='')
     parser.add_argument('-v', '--version', help='Version', action='store_true')
-    args = parser.parse_args(args)
+    args = parser.parse_args()
     
     if args.version:
         print("%s version %s" % (__title__, __version__))
