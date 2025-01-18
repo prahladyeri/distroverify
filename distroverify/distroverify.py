@@ -167,7 +167,11 @@ def verify(match, distro, file_name, full_file_name, get_download_link=False):
             pass
         return
         
-    print('verification url(s):', url)
+    if type(url) == str:
+        print('verification url:', url)
+    else:
+        for key in url.keys():
+            print(f"verification url[{key}]:", url[key].format(ver=ver, arch=arch))
     print('calculating hash...')
     hash = hashlib.sha256()
     with open(full_file_name,'rb') as fp:
@@ -178,14 +182,14 @@ def verify(match, distro, file_name, full_file_name, get_download_link=False):
 
     print(colors['blue'])
     print(strhash)
-    print('fetching official hash...')
+    print('fetching official hash..')
     
     if distro in ['debian-live', 'debian-dvd']:
-        print("trying archive url...")
+        print("trying archive url..")
         turl = url['archive'].format(ver=ver, arch=arch)
         resp = requests.get(turl)
         if resp.status_code == 404:
-            print("failed. now trying release url...")
+            print("failed. now trying release url..")
             turl = url['release'].format(ver=ver, arch=arch)
             resp = requests.get(turl)
             if resp.status_code == 404:
